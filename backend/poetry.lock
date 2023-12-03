@@ -231,6 +231,19 @@ async = ["aiohttp (>=3,<4)"]
 requests = ["requests (>=2.4.0,<3.0.0)"]
 
 [[package]]
+name = "envparse"
+version = "0.2.0"
+description = "Simple environment variable parsing"
+optional = false
+python-versions = "*"
+files = [
+    {file = "envparse-0.2.0.tar.gz", hash = "sha256:4f3b9a27bb55d27f124eb4adf006fec05e4588891c9a054a183a112645056eb7"},
+]
+
+[package.extras]
+testing = ["pytest"]
+
+[[package]]
 name = "fastapi"
 version = "0.104.1"
 description = "FastAPI framework, high performance, easy to learn, fast to code, ready for production"
@@ -740,4 +753,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "034a4c51b82dbe2933ecf1e81dfd7b4da7a3b675c75cedf374e91966f5714aa6"
+content-hash = "6112e3948ebdc54cd9168b3fa576a56b7f1e712782f540850a4e61cbcca1ba03"
