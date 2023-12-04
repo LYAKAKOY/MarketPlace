@@ -1,8 +1,5 @@
 MAPPING_FOR_INDEX_PRODUCTS = {
             "properties": {
-                "id_product": {
-                    "type": "integer",
-                },
                 "id_company": {
                     "type": "integer",
                 },
