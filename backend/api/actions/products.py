@@ -19,3 +19,11 @@ async def _get_all_products(elastic_client: AsyncElasticsearch) -> List[ShowProd
         list_show_products = [ShowProduct(id_product=product.get("_id"), **product.get("_source"))
                               for product in products]
         return list_show_products
+
+async def _get_all_products_by_category(category: str, elastic_client: AsyncElasticsearch) -> List[ShowProduct] | None:
+    res = await elastic_client.search(index="products", query={"term": {"category": {"value": category}}})
+    products = res.get("hits").get("hits")
+    if products is not None:
+        list_show_products = [ShowProduct(id_product=product.get("_id"), **product.get("_source"))
+                              for product in products]
+        return list_show_products
