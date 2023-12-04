@@ -2,7 +2,7 @@ from elasticsearch import AsyncElasticsearch
 from fastapi import APIRouter
 from fastapi import Depends, HTTPException, status
 
-from api.actions.products import _create_product, _get_all_products
+from api.actions.products import _create_product, _get_all_products, _get_all_products_by_category
 from db.elasticsearch.session import get_db_es
 from api.products.schemas import CreateProduct, ShowProduct
 
@@ -23,6 +23,15 @@ async def create_product(body: CreateProduct,
 async def get_products(elastic_client: AsyncElasticsearch = Depends(get_db_es)):
     """create product"""
     res = await _get_all_products(elastic_client)
+    if res is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail="There are no products")
+    return res
+
+@products_router.get("/{category}")
+async def get_products_by_category(category: str, elastic_client: AsyncElasticsearch = Depends(get_db_es)):
+    """create product"""
+    res = await _get_all_products_by_category(category, elastic_client)
     if res is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail="There are no products")
