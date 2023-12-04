@@ -1,0 +1,10 @@
+from elasticsearch import AsyncElasticsearch
+
+from api.products.schemas import CreateProduct, ShowProduct
+
+
+async def _create_product(product: CreateProduct, elastic_client: AsyncElasticsearch) -> ShowProduct | None:
+    res = await elastic_client.index(index="products", document=product.model_dump(exclude_none=True))
+    if res.meta.status == 201:
+        return ShowProduct(id_product=res.get("_id"), **product.model_dump(exclude_none=True,
+                                                                        exclude={'additionalProp1'}))
