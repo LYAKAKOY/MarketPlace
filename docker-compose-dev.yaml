@@ -24,7 +24,7 @@ services:
       - xpack.security.enabled=false
       - "discovery.type=single-node"
     volumes:
-      - data_es_db:/var/lib/elasticsearch/data
+      - data_es_db:/usr/share/elasticsearch/data
     networks:
       - web_app_network
     ports:
