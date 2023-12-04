@@ -20,7 +20,12 @@ MAPPING_FOR_INDEX_PRODUCTS = {
                     }
                 },
                 "category": {
-                    "type": "keyword",
+                    "type": "text",
+                    "fields": {
+                        "keyword": {
+                            "type": "keyword"
+                        }
+                    }
                 },
                 "sum": {
                     "type": "integer",
