@@ -19,6 +19,9 @@ MAPPING_FOR_INDEX_PRODUCTS = {
                         }
                     }
                 },
+                "category": {
+                    "type": "keyword",
+                },
                 "sum": {
                     "type": "integer",
                 },

@@ -7,6 +7,7 @@ class CreateProduct(BaseModel):
     id_company: int
     product_name: str
     description: str
+    category: str
     sum: int
 
     class Config:
@@ -17,6 +18,7 @@ class ShowProduct(TunedModel):
     id_company: int
     product_name: str
     description: str
+    category: str
     sum: int
 
     class Config:
