@@ -1,3 +1,5 @@
+from typing import List
+
 from elasticsearch import AsyncElasticsearch
 from fastapi import APIRouter
 from fastapi import Depends, HTTPException, status
@@ -19,8 +21,8 @@ async def create_product(body: CreateProduct,
                             detail="the server is not responding")
     return res
 
-@products_router.get("/")
-async def get_products(elastic_client: AsyncElasticsearch = Depends(get_db_es)):
+@products_router.get("/", response_model=List[ShowProduct])
+async def get_products(elastic_client: AsyncElasticsearch = Depends(get_db_es)) -> List[ShowProduct]:
     """create product"""
     res = await _get_all_products(elastic_client)
     if res is None:
@@ -28,8 +30,8 @@ async def get_products(elastic_client: AsyncElasticsearch = Depends(get_db_es)):
                             detail="There are no products")
     return res
 
-@products_router.get("/{category}")
-async def get_products_by_category(category: str, elastic_client: AsyncElasticsearch = Depends(get_db_es)):
+@products_router.get("/{category}", response_model=List[ShowProduct])
+async def get_products_by_category(category: str, elastic_client: AsyncElasticsearch = Depends(get_db_es)) -> List[ShowProduct]:
     """create product"""
     res = await _get_all_products_by_category(category, elastic_client)
     if res is None:
