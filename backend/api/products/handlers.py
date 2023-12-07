@@ -1,5 +1,3 @@
-from typing import List
-
 from elasticsearch import AsyncElasticsearch
 from fastapi import APIRouter
 from fastapi import Depends, HTTPException, status

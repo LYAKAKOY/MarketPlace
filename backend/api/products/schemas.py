@@ -1,6 +1,6 @@
 from typing import List
 
-from pydantic import BaseModel, Extra, ConfigDict
+from pydantic import BaseModel, Extra
 
 from api.base_schemas import TunedModel
 
