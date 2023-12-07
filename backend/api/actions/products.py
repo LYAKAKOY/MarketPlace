@@ -54,3 +54,21 @@ async def _get_products_by_scroll(scroll_id: str, elastic_client: AsyncElasticse
             list_show_products = [ShowProduct(id_product=product.get("_id"), **product.get("_source"))
                                   for product in products]
             return ScrollListProducts(scroll_id=scroll_id, products=list_show_products)
+
+async def _get_products_using_filter(product_name: str, min_sum: int, max_sum: int, elastic_client: AsyncElasticsearch) -> ScrollListProducts | None:
+    res = await elastic_client.search(index=NAME_INDEX_PRODUCTS, query={
+        "bool": {
+            "must": [
+                {"match": {"product_name": {"query": product_name}}},
+                {"range": {"sum": {"gte": min_sum, "lt": max_sum}}}
+            ]
+        }
+    },
+    scroll=settings.SCROLL_TIME)
+    if res.meta.status == 200:
+        scroll_id = res['_scroll_id']
+        products = res.get("hits").get("hits")
+        if products:
+            list_show_products = [ShowProduct(id_product=product.get("_id"), **product.get("_source"))
+                                  for product in products]
+            return ScrollListProducts(scroll_id=scroll_id, products=list_show_products)
