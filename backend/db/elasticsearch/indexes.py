@@ -1,3 +1,4 @@
+NAME_INDEX_PRODUCTS = "products"
 MAPPING_FOR_INDEX_PRODUCTS = {
             "properties": {
                 "id_company": {
@@ -34,5 +35,5 @@ MAPPING_FOR_INDEX_PRODUCTS = {
         }
 
 all_indexes = {
-    "products": MAPPING_FOR_INDEX_PRODUCTS,
+    NAME_INDEX_PRODUCTS: MAPPING_FOR_INDEX_PRODUCTS,
 }
