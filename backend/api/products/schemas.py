@@ -16,6 +16,11 @@ class CreateProduct(BaseModel):
         strict = True
         extra = Extra.allow
 
+class FilterProducts(BaseModel):
+    product_name: str
+    min_sum: int
+    max_sum: int
+
 class ShowProduct(TunedModel):
     id_product: str
     id_company: int
