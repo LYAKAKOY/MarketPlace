@@ -11,7 +11,7 @@ services:
       ES_PORT: 9200
       ES_DATABASE: es_test
     networks:
-      - web_app_network
+      - web_test_app_network
     ports:
       - '127.0.0.1:8000:8000'
     command: uvicorn main:app --reload --host 0.0.0.0 --port 8000
@@ -24,10 +24,8 @@ services:
     environment:
       - xpack.security.enabled=false
       - "discovery.type=single-node"
-    volumes:
-      - data_es_db:/usr/share/elasticsearch/data
     networks:
-      - web_app_network
+      - web_test_app_network
     ports:
       - "127.0.0.1:9200:9200"
 
@@ -37,15 +35,12 @@ services:
     environment:
       - ELASTICSEARCH_HOSTS=http://es_test:9200
     networks:
-      - web_app_network
+      - web_test_app_network
     depends_on:
       - elasticsearch
     ports:
       - "5601:5601"
 
 networks:
-  web_app_network:
+  web_test_app_network:
     driver: bridge
-
-volumes:
-  data_es_db:
