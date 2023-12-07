@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel, Extra, ConfigDict
 
 from api.base_schemas import TunedModel
 
@@ -11,6 +11,7 @@ class CreateProduct(BaseModel):
     sum: int
 
     class Config:
+        strict = True
         extra = Extra.allow
 
 class ShowProduct(TunedModel):
