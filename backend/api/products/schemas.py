@@ -1,3 +1,5 @@
+from typing import List
+
 from pydantic import BaseModel, Extra, ConfigDict
 
 from api.base_schemas import TunedModel
@@ -24,3 +26,7 @@ class ShowProduct(TunedModel):
 
     class Config:
         extra = Extra.allow
+
+class ScrollListProducts(TunedModel):
+    scroll_id: str
+    products: List[ShowProduct]
