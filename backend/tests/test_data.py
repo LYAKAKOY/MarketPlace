@@ -1,0 +1,21 @@
+products =[
+    {"id_company": 1, "product_name": "Product A", "description": "Description A", "category": "Category X", "sum": 100},
+    {"id_company": 2, "product_name": "Product A", "description": "Description B", "category": "Category Y", "sum": 150},
+    {"id_company": 3, "product_name": "Product C", "description": "Description C", "category": "Category Z", "sum": 200},
+    {"id_company": 1, "product_name": "Product B", "description": "Description D", "category": "Category X", "sum": 120},
+    {"id_company": 5, "product_name": "Product E", "description": "Description E", "category": "Category Y", "sum": 180},
+    {"id_company": 2, "product_name": "Product A", "description": "Description F", "category": "Category Z", "sum": 220},
+    {"id_company": 3, "product_name": "Product G", "description": "Description G", "category": "Category X", "sum": 130},
+    {"id_company": 8, "product_name": "Product A", "description": "Description H", "category": "Category Y", "sum": 170},
+    {"id_company": 9, "product_name": "Product C", "description": "Description I", "category": "Category Z", "sum": 240},
+    {"id_company": 3, "product_name": "Product B", "description": "Description J", "category": "Category X", "sum": 110},
+    {"id_company": 11, "product_name": "Product K", "description": "Description K", "category": "Category Y", "sum": 160},
+    {"id_company": 1, "product_name": "Product A", "description": "Description L", "category": "Category Z", "sum": 190},
+    {"id_company": 13, "product_name": "Product M", "description": "Description M", "category": "Category X", "sum": 140},
+    {"id_company": 2, "product_name": "Product O", "description": "Description O", "category": "Category Z", "sum": 250},
+    {"id_company": 3, "product_name": "Product A", "description": "Description P", "category": "Category X", "sum": 120},
+    {"id_company": 17, "product_name": "Product Q", "description": "Description Q", "category": "Category Y", "sum": 180},
+    {"id_company": 8, "product_name": "Product B", "description": "Description R", "category": "Category Z", "sum": 220},
+    {"id_company": 19, "product_name": "Product B", "description": "Description S", "category": "Category X", "sum": 130},
+    {"id_company": 20, "product_name": "Product C", "description": "Description T", "category": "Category Y", "sum": 170}
+]
