@@ -59,7 +59,7 @@ async def _get_products_using_filter(product_name: str, min_sum: int, max_sum: i
     res = await elastic_client.search(index=NAME_INDEX_PRODUCTS, query={
         "bool": {
             "must": [
-                {"match": {"product_name": {"query": product_name}}},
+                {"term": {"product_name.keyword": {"value": product_name}}},
                 {"range": {"sum": {"gte": min_sum, "lt": max_sum}}}
             ]
         }
