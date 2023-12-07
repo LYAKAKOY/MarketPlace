@@ -1,14 +1,15 @@
 services:
 
-  backend:
-    container_name: backend
+  backend_test:
+    container_name: backend_test
     build:
       context: ./backend
       dockerfile: Dockerfile_backend_test
     volumes:
       - ./backend:/backend
-    env_file:
-      - /backend/.env
+    environment:
+      ES_PORT: 9200
+      ES_DATABASE: es_test
     networks:
       - web_app_network
     ports:
@@ -18,7 +19,7 @@ services:
       - elasticsearch
 
   elasticsearch:
-    container_name: es
+    container_name: es_test
     image: docker.elastic.co/elasticsearch/elasticsearch:8.11.1
     environment:
       - xpack.security.enabled=false
@@ -34,7 +35,7 @@ services:
     container_name: kibana
     image: docker.elastic.co/kibana/kibana:8.11.1
     environment:
-      - ELASTICSEARCH_HOSTS=http://es:9200
+      - ELASTICSEARCH_HOSTS=http://es_test:9200
     networks:
       - web_app_network
     depends_on:
