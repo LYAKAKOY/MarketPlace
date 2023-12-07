@@ -4,13 +4,22 @@ from fastapi import Depends, HTTPException, status
 
 from api.actions.products import (
     _create_product, _get_all_products, _get_all_products_by_category,
-    _get_all_product_by_company_id, _get_products_by_scroll
+    _get_all_product_by_company_id, _get_products_by_scroll, _get_products_using_filter
 )
 from db.elasticsearch.session import get_db_es
 from api.products.schemas import CreateProduct, ShowProduct, ScrollListProducts
 
 products_router = APIRouter()
 
+@products_router.get("/filter", response_model=ScrollListProducts)
+async def get_products_by_company_id(product_name: str, max_sum: int, min_sum: int = 0, elastic_client: AsyncElasticsearch = Depends(get_db_es)) -> ScrollListProducts:
+    """create product"""
+    res = await _get_products_using_filter(product_name=product_name, min_sum=min_sum,
+                                           max_sum=max_sum, elastic_client=elastic_client)
+    if res is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail="There are no products")
+    return res
 
 @products_router.post("/", response_model=ShowProduct)
 async def create_product(body: CreateProduct,
