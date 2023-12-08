@@ -12,7 +12,7 @@ from api.products.schemas import CreateProduct, ShowProduct, ScrollListProducts
 products_router = APIRouter()
 
 @products_router.get("/filter", response_model=ScrollListProducts)
-async def get_products_by_company_id(product_name: str, max_sum: int, min_sum: int = 0, elastic_client: AsyncElasticsearch = Depends(get_db_es)) -> ScrollListProducts:
+async def get_products_using_filter(product_name: str, max_sum: int, min_sum: int = 0, elastic_client: AsyncElasticsearch = Depends(get_db_es)) -> ScrollListProducts:
     """create product"""
     res = await _get_products_using_filter(product_name=product_name, min_sum=min_sum,
                                            max_sum=max_sum, elastic_client=elastic_client)
@@ -59,7 +59,7 @@ async def get_products_by_company_id(company_id: int, elastic_client: AsyncElast
     return res
 
 @products_router.get("/scroll/{scroll_id}", response_model=ScrollListProducts)
-async def get_products_by_company_id(scroll_id: str, elastic_client: AsyncElasticsearch = Depends(get_db_es)) -> ScrollListProducts:
+async def get_products_by_scroll_id(scroll_id: str, elastic_client: AsyncElasticsearch = Depends(get_db_es)) -> ScrollListProducts:
     """create product"""
     res = await _get_products_by_scroll(scroll_id, elastic_client)
     if res is None:
