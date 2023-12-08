@@ -23,7 +23,7 @@ from tests.test_data import products
         ),
     ],
 )
-async def test_create_product_handler(
+async def test_get_products_using_filter_handler(
     client,
     create_products,
     product_name,
@@ -47,3 +47,4 @@ async def test_create_product_handler(
         assert product_from_response["description"] == expected_product["description"]
         assert product_from_response["category"] == expected_product["category"]
         assert product_from_response["sum"] == expected_product["sum"]
+
