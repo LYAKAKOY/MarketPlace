@@ -37,7 +37,7 @@ def test_client_es():
 @pytest.fixture(scope="function", autouse=True)
 async def clean_index():
     client_es = Elasticsearch(hosts=settings.ES_DATABASE_URL)
-    client_es.options(ignore_status=[400,404]).indices.delete(index='products')
+    client_es.options(ignore_status=[400,404]).indices.delete(index=NAME_INDEX_PRODUCTS)
 
 products_data = [
                 {"id_company": 1, "product_name": "Product A", "description": "Description A", "category": "Category X", "sum": 100},
