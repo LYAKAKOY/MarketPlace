@@ -7,11 +7,9 @@ from db.elasticsearch.indexes import NAME_INDEX_PRODUCTS
 
 
 async def _create_product(product: CreateProduct, elastic_client: AsyncElasticsearch) -> ShowProduct | None:
-    res = await elastic_client.index(index=NAME_INDEX_PRODUCTS, document=product.model_dump(exclude_none=True,
-                                                                        exclude={'additionalProp1'}))
+    res = await elastic_client.index(index=NAME_INDEX_PRODUCTS, document=product.model_dump(exclude_none=True), refresh=True)
     if res.meta.status == 201:
-        return ShowProduct(id_product=res.get("_id"), **product.model_dump(exclude_none=True,
-                                                                        exclude={'additionalProp1'}))
+        return ShowProduct(id_product=res.get("_id"), **product.model_dump(exclude_none=True))
 
 async def _get_all_products(elastic_client: AsyncElasticsearch) -> ScrollListProducts | None:
     res = await elastic_client.search(index=NAME_INDEX_PRODUCTS,
@@ -25,7 +23,7 @@ async def _get_all_products(elastic_client: AsyncElasticsearch) -> ScrollListPro
             return ScrollListProducts(scroll_id=scroll_id, products=list_show_products)
 
 async def _get_all_products_by_category(category: str, elastic_client: AsyncElasticsearch) -> ScrollListProducts | None:
-    res = await elastic_client.search(index=NAME_INDEX_PRODUCTS, query={"match": {"category": {"query": category}}},
+    res = await elastic_client.search(index=NAME_INDEX_PRODUCTS, query={"term": {"category.keyword": {"value": category}}},
                                       scroll=settings.SCROLL_TIME)
     if res.meta.status == 200:
         scroll_id = res['_scroll_id']
@@ -47,7 +45,7 @@ async def _get_all_product_by_company_id(id_company: int, elastic_client: AsyncE
             return ScrollListProducts(scroll_id=scroll_id, products=list_show_products)
 
 async def _get_products_by_scroll(scroll_id: str, elastic_client: AsyncElasticsearch) -> ScrollListProducts | None:
-    res = await elastic_client.scroll(scroll_id=scroll_id, scroll=settings.SCROLL_TIME)
+    res = await elastic_client.options(ignore_status=400).scroll(scroll_id=scroll_id, scroll=settings.SCROLL_TIME)
     if res.meta.status == 200:
         products = res.get("hits").get("hits")
         if products:
@@ -59,7 +57,7 @@ async def _get_products_using_filter(product_name: str, min_sum: int, max_sum: i
     res = await elastic_client.search(index=NAME_INDEX_PRODUCTS, query={
         "bool": {
             "must": [
-                {"match": {"product_name": {"query": product_name}}},
+                {"term": {"product_name.keyword": {"value": product_name}}},
                 {"range": {"sum": {"gte": min_sum, "lt": max_sum}}}
             ]
         }
