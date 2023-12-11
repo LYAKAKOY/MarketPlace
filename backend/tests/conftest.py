@@ -19,7 +19,7 @@ def event_loop():
     yield loop
     loop.close()
 @pytest.fixture(scope="session", autouse=True)
-async def run_migrations():
+def run_migrations():
     os.system("python db/elasticsearch/migrations.py")
 @pytest.fixture(scope="function")
 async def client() -> Generator[AsyncClient, Any, None]:
@@ -31,23 +31,34 @@ async def client() -> Generator[AsyncClient, Any, None]:
     async with AsyncClient(app=app, base_url="http://127.0.0.1") as client:
         yield client
 @pytest.fixture(scope="function")
-def test_client_es():
-    return AsyncElasticsearch(hosts=settings.ES_DATABASE_URL)
+async def test_client_es():
+    test_async_client_es = AsyncElasticsearch(hosts=settings.ES_DATABASE_URL)
+    yield test_async_client_es
+    await test_async_client_es.close()
 
 @pytest.fixture(scope="function", autouse=True)
-async def clean_index():
+def clean_index():
     client_es = Elasticsearch(hosts=settings.ES_DATABASE_URL)
-    client_es.options(ignore_status=[400,404]).indices.delete(index=NAME_INDEX_PRODUCTS)
+    client_es.delete_by_query(index=NAME_INDEX_PRODUCTS, query={"match_all": {}}, refresh=True)
+    client_es.close()
+
+@pytest.fixture(scope="function")
+def create_products():
+    client_es = Elasticsearch(hosts=settings.ES_DATABASE_URL)
+    for product in products_data:
+        client_es.index(index=NAME_INDEX_PRODUCTS, document=product, refresh="wait_for")
+    client_es.close()
+
 
 products_data = [
-                {"id_company": 1, "product_name": "Product A", "description": "Description A", "category": "Category X", "sum": 100},
-                {"id_company": 2, "product_name": "Product A", "description": "Description B", "category": "Category Y", "sum": 150},
-                {"id_company": 3, "product_name": "Product C", "description": "Description C", "category": "Category Z", "sum": 200},
-                {"id_company": 1, "product_name": "Product B", "description": "Description D", "category": "Category X", "sum": 120},
-                {"id_company": 5, "product_name": "Product E", "description": "Description E", "category": "Category Y", "sum": 180},
-                {"id_company": 2, "product_name": "Product A", "description": "Description F", "category": "Category Z", "sum": 220},
-                {"id_company": 3, "product_name": "Product G", "description": "Description G", "category": "Category X", "sum": 130},
-                {"id_company": 8, "product_name": "Product A", "description": "Description H", "category": "Category Y", "sum": 170},
-                {"id_company": 9, "product_name": "Product C", "description": "Description I", "category": "Category Z", "sum": 240},
-                {"id_company": 3, "product_name": "Product B", "description": "Description J", "category": "Category X", "sum": 110},
-            ]
+    {"id_company": 1, "product_name": "Product A", "description": "Description A", "category": "Category X", "sum": 100},
+    {"id_company": 2, "product_name": "Product A", "description": "Description B", "category": "Category Y", "sum": 150},
+    {"id_company": 3, "product_name": "Product C", "description": "Description C", "category": "Category Z", "sum": 200},
+    {"id_company": 1, "product_name": "Product B", "description": "Description D", "category": "Category X", "sum": 120},
+    {"id_company": 5, "product_name": "Product E", "description": "Description E", "category": "Category Y", "sum": 180},
+    {"id_company": 2, "product_name": "Product A", "description": "Description F", "category": "Category Z", "sum": 220},
+    {"id_company": 3, "product_name": "Product G", "description": "Description G", "category": "Category X", "sum": 130},
+    {"id_company": 8, "product_name": "Product A", "description": "Description H", "category": "Category Y", "sum": 170},
+    {"id_company": 9, "product_name": "Product C", "description": "Description I", "category": "Category Z", "sum": 240},
+    {"id_company": 3, "product_name": "Product B", "description": "Description J", "category": "Category X", "sum": 110},
+]
