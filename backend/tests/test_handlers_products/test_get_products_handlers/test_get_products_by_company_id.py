@@ -2,16 +2,14 @@ import pytest
 from tests.conftest import products_data
 
 @pytest.mark.parametrize(
-    "products_data, company_id, expected_status_code, expected_data",
+    "company_id, expected_status_code, expected_data",
     [
         (
-            products_data,
             1,
             200,
             list(filter(lambda p: p["id_company"] == 1, products_data)),
         ),
         (
-            products_data,
             3,
             200,
             list(filter(lambda p: p["id_company"] == 3, products_data)),
@@ -21,7 +19,6 @@ from tests.conftest import products_data
 async def test_get_products_company_id_handler(
     client,
     create_products,
-    products_data,
     company_id,
     expected_status_code,
     expected_data,
@@ -43,10 +40,9 @@ async def test_get_products_company_id_handler(
         assert got_product["sum"] == expected_product["sum"]
 
 @pytest.mark.parametrize(
-    "products_data, company_id, expected_status_code, expected_data",
+    "company_id, expected_status_code, expected_data",
     [
         (
-            products_data,
             20,
             404,
             {"detail": "There are no products"},
@@ -56,7 +52,6 @@ async def test_get_products_company_id_handler(
 async def test_get_products_company_id_handler_404_not_found(
     client,
     create_products,
-    products_data,
     company_id,
     expected_status_code,
     expected_data,

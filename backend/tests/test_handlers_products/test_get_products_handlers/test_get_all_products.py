@@ -19,3 +19,13 @@ async def test_get_all_products_handler(
         assert got_product["description"] == expected_product["description"]
         assert got_product["category"] == expected_product["category"]
         assert got_product["sum"] == expected_product["sum"]
+
+async def test_get_all_products_handler_404_not_found(
+    client,
+):
+    response = await client.get(
+        f"/products/",
+    )
+    data_from_response = response.json()
+    assert response.status_code == 404
+    assert data_from_response == {"detail": "There are no products"}
