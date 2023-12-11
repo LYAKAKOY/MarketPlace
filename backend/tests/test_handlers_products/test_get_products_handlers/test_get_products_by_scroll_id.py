@@ -24,7 +24,7 @@ async def test_get_products_by_scroll_id_handler(
     expected_status_code
 ):
     for product in additional_products_data:
-        create_product(document=product)
+        await create_product(document=product)
     response = await client.get(
         f"/products/",
     )

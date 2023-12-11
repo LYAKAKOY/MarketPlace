@@ -2,7 +2,7 @@ import asyncio
 import os
 from typing import Generator, Any
 
-from elasticsearch import AsyncElasticsearch, Elasticsearch
+from elasticsearch import AsyncElasticsearch
 import settings
 from db.elasticsearch.indexes import NAME_INDEX_PRODUCTS
 from db.elasticsearch.session import get_db_es
@@ -21,11 +21,7 @@ def event_loop():
 @pytest.fixture(scope="session", autouse=True)
 def run_migrations():
     os.system("python db/elasticsearch/migrations.py")
-@pytest.fixture(scope="session")
-def test_client_es():
-    client_es = Elasticsearch(hosts=settings.ES_DATABASE_URL)
-    yield client_es
-    client_es.close()
+
 @pytest.fixture(scope="function")
 async def client() -> Generator[AsyncClient, Any, None]:
     """
@@ -46,14 +42,14 @@ async def clean_index(test_async_client_es):
     await test_async_client_es.delete_by_query(index=NAME_INDEX_PRODUCTS, query={"match_all": {}}, refresh=True)
 
 @pytest.fixture(scope="function")
-def create_products(test_client_es):
+async def create_products(test_async_client_es):
     for product in products_data:
-        test_client_es.index(index=NAME_INDEX_PRODUCTS, document=product, refresh="wait_for")
+        await test_async_client_es.index(index=NAME_INDEX_PRODUCTS, document=product, refresh=True)
 
-def create_product(document: dict):
-    client_es = Elasticsearch(hosts=settings.ES_DATABASE_URL)
-    client_es.index(index=NAME_INDEX_PRODUCTS, document=document, refresh="wait_for")
-    client_es.close()
+async def create_product(document: dict):
+    test_async_client_es = AsyncElasticsearch(hosts=settings.ES_DATABASE_URL)
+    await test_async_client_es.index(index=NAME_INDEX_PRODUCTS, document=document, refresh=True)
+    await test_async_client_es.close()
 
 products_data = [
     {"id_company": 1, "product_name": "Product A", "description": "Description A", "category": "Category X", "sum": 100},
