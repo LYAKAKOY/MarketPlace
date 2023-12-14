@@ -16,6 +16,7 @@ class CreateProduct(BaseModel):
         strict = True
         extra = Extra.allow
 
+
 class ShowProduct(TunedModel):
     id_product: str
     id_company: int
@@ -26,6 +27,7 @@ class ShowProduct(TunedModel):
 
     class Config:
         extra = Extra.allow
+
 
 class ScrollListProducts(TunedModel):
     scroll_id: str
