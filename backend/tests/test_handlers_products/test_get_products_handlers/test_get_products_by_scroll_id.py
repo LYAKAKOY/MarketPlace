@@ -32,7 +32,7 @@ async def test_get_products_by_scroll_id_handler(
     assert data_from_response.get("scroll_id") is not None
     got_products: List[dict] = data_from_response.get('products')
     response = await client.get(
-        f"/products/scroll/{data_from_response.get('scroll_id')}/",
+        f"/products/scroll/{data_from_response.get('scroll_id')}",
     )
     data_from_response = response.json()
     got_products.extend(data_from_response.get("products"))
@@ -58,7 +58,7 @@ async def test_get_products_by_scroll_id_handler_404_not_found(
     data_from_response = response.json()
     assert data_from_response.get("scroll_id") is not None
     response = await client.get(
-        f"/products/scroll/{data_from_response.get('scroll_id')}/",
+        f"/products/scroll/{data_from_response.get('scroll_id')}",
     )
     data_from_response = response.json()
     assert response.status_code == 404
@@ -74,7 +74,7 @@ async def test_get_products_by_scroll_id_handler_incorrect_scroll_id(
     data_from_response = response.json()
     assert data_from_response.get("scroll_id") is not None
     response = await client.get(
-        f"/products/scroll/1/",
+        f"/products/scroll/1",
     )
     data_from_response = response.json()
     assert response.status_code == 404

@@ -24,7 +24,7 @@ async def test_get_products_category_handler(
     expected_data,
 ):
     response = await client.get(
-        f"/products/by_category/{category}/",
+        f"/products/by_category/{category}",
     )
     data_from_response = response.json()
     assert response.status_code == expected_status_code
@@ -57,7 +57,7 @@ async def test_get_products_company_id_handler_404_not_found(
     expected_data,
 ):
     response = await client.get(
-        f"/products/by_category/{category}/",
+        f"/products/by_category/{category}",
     )
     data_from_response = response.json()
     assert response.status_code == expected_status_code
