@@ -81,7 +81,8 @@ async def _get_products_using_filter(product_name: str, min_sum: int, max_sum: i
             return ScrollListProducts(scroll_id=scroll_id, products=list_show_products)
 
 
-async def _get_products_by_match_description(description: str, elastic_client: AsyncElasticsearch) -> List[ShowProduct] | None:
+async def _get_products_by_match_description(description: str, elastic_client: AsyncElasticsearch) -> \
+        List[ShowProduct] | None:
     res = await elastic_client.search(index=NAME_INDEX_PRODUCTS, query={"match": {"description": {"value": description}}},
                                       scroll=settings.SCROLL_TIME)
     if res.meta.status == 200:
