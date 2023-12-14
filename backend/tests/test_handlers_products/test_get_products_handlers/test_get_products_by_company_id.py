@@ -24,7 +24,7 @@ async def test_get_products_company_id_handler(
     expected_data,
 ):
     response = await client.get(
-        f"/products/by_company/{company_id}/",
+        f"/products/by_company/{company_id}",
     )
     data_from_response = response.json()
     assert response.status_code == expected_status_code
@@ -57,7 +57,7 @@ async def test_get_products_company_id_handler_404_not_found(
     expected_data,
 ):
     response = await client.get(
-        f"/products/by_company/{company_id}/",
+        f"/products/by_company/{company_id}",
     )
     data_from_response = response.json()
     assert response.status_code == expected_status_code
@@ -90,7 +90,7 @@ async def test_get_products_company_id_handler_without_int_parameter(
     expected_data,
 ):
     response = await client.get(
-        "/products/by_company/a/",
+        "/products/by_company/a",
     )
     data_from_response = response.json()
     assert response.status_code == 422

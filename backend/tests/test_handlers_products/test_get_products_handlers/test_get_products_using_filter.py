@@ -33,7 +33,7 @@ async def test_get_products_using_filter_handler(
     expected_data,
 ):
     response = await client.get(
-        f"/products/filter/?product_name={product_name}&min_sum={min_sum}&max_sum={max_sum}",
+        f"/products/filter?product_name={product_name}&min_sum={min_sum}&max_sum={max_sum}",
     )
     data_from_response = response.json()
     assert response.status_code == expected_status_code
@@ -71,7 +71,7 @@ async def test_get_products_using_filter_handler_404_not_found(
     expected_data,
 ):
     response = await client.get(
-        f"/products/filter/?product_name={product_name}&min_sum={min_sum}&max_sum={max_sum}",
+        f"/products/filter?product_name={product_name}&min_sum={min_sum}&max_sum={max_sum}",
     )
     data_from_response = response.json()
     assert response.status_code == expected_status_code
@@ -81,7 +81,7 @@ async def test_get_products_using_filter_handler_without_parameter(
     client,
 ):
     response = await client.get(
-        f"/products/filter/",
+        f"/products/filter",
     )
     data_from_response = response.json()
     assert response.status_code == 422
@@ -128,7 +128,7 @@ async def test_get_products_using_filter_handler_422_mistakes(
     expected_data,
 ):
     response = await client.get(
-        f"/products/filter/?product_name={product_name}&min_sum={min_sum}&max_sum={max_sum}",
+        f"/products/filter?product_name={product_name}&min_sum={min_sum}&max_sum={max_sum}",
     )
     data_from_response = response.json()
     assert response.status_code == expected_status_code

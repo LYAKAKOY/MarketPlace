@@ -1,30 +1,31 @@
 import pytest
 from tests.conftest import products_data
 
+
 @pytest.mark.parametrize(
-    "category, expected_status_code, expected_data",
+    "description, expected_status_code, expected_data",
     [
         (
-            "Category X",
-            200,
-            list(filter(lambda p: p["category"] == "Category X", products_data)),
+                "A",
+                200,
+                list(filter(lambda p: "A" in p["description"].split(), products_data)),
         ),
         (
-            "Category Z",
-            200,
-            list(filter(lambda p: p["category"] == "Category Z", products_data)),
+                "B",
+                200,
+                list(filter(lambda p: "B" in p["description"].split(), products_data)),
         ),
     ],
 )
-async def test_get_products_category_handler(
-    client,
-    create_products,
-    category,
-    expected_status_code,
-    expected_data,
+async def test_get_products_by_match_description_handler(
+        client,
+        create_products,
+        description,
+        expected_status_code,
+        expected_data,
 ):
     response = await client.get(
-        f"/products/by_category/{category}",
+        f"/products/by_match_description/{description}",
     )
     data_from_response = response.json()
     assert response.status_code == expected_status_code
@@ -39,25 +40,26 @@ async def test_get_products_category_handler(
         assert got_product["category"] == expected_product["category"]
         assert got_product["sum"] == expected_product["sum"]
 
+
 @pytest.mark.parametrize(
-    "category, expected_status_code, expected_data",
+    "description, expected_status_code, expected_data",
     [
         (
-            "Category LK",
-            404,
-            {"detail": "There are no products"},
+                "F",
+                404,
+                {"detail": "There are no products"},
         ),
     ],
 )
-async def test_get_products_company_id_handler_404_not_found(
-    client,
-    create_products,
-    category,
-    expected_status_code,
-    expected_data,
+async def test_get_products_by_match_description_handler_404_not_found(
+        client,
+        create_products,
+        description,
+        expected_status_code,
+        expected_data,
 ):
     response = await client.get(
-        f"/products/by_category/{category}",
+        f"/products/by_match_description/{description}",
     )
     data_from_response = response.json()
     assert response.status_code == expected_status_code

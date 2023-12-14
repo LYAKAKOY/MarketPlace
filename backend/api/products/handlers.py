@@ -52,7 +52,7 @@ async def get_products_by_company_id(company_id: int,
     return res
 
 
-@products_router.get("/by_match_description", response_model=ScrollListProducts)
+@products_router.get("/by_match_description/{description}", response_model=ScrollListProducts)
 async def get_products_by_match_description(description: str,
                                             elastic_client: AsyncElasticsearch = Depends(
                                                 get_db_es)) -> ScrollListProducts:
