@@ -14,7 +14,7 @@ services:
       - web_test_app_network
     ports:
       - '127.0.0.1:8000:8000'
-    command: sh -c "while ! nc -z es_test 9200; do sleep 1; done && python db/elasticsearch/migrations.py && pytest"
+    command: sh -c "while ! nc -z es_test 9200; do sleep 1; done && python db/elasticsearch/migrations.py && uvicorn main:app --reload --host 0.0.0.0 --port 8000"
     depends_on:
       - elasticsearch
 
