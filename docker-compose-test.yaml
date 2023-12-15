@@ -35,19 +35,6 @@ services:
     ports:
       - "127.0.0.1:9200:9200"
 
-  kibana:
-    container_name: kibana
-    image: docker.elastic.co/kibana/kibana:8.11.1
-    environment:
-      - ELASTICSEARCH_HOSTS=http://es_test:9200
-    networks:
-      - web_test_app_network
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-    ports:
-      - "5601:5601"
-
 networks:
   web_test_app_network:
     driver: bridge
