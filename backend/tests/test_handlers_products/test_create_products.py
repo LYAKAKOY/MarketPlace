@@ -119,7 +119,7 @@ async def test_create_product_without_required_parameters_handler(
     expected_status_code,
 ):
     response = await client.post(
-        "/products/",
+        "/product/",
         content=json.dumps(product_data),
     )
     data_from_response = response.json()
