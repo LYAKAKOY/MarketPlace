@@ -44,7 +44,8 @@ services:
     networks:
       - web_app_network
     depends_on:
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
     ports:
       - "5601:5601"
 
