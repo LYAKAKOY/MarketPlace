@@ -1,8 +1,7 @@
 from typing import List
 
-from pydantic import BaseModel
-
 from api.base_schemas import TunedModel
+from pydantic import BaseModel
 
 
 class CreateProduct(BaseModel):
@@ -14,7 +13,7 @@ class CreateProduct(BaseModel):
 
     class Config:
         strict = True
-        extra = 'allow'
+        extra = "allow"
 
 
 class ShowProduct(TunedModel):
@@ -26,7 +25,7 @@ class ShowProduct(TunedModel):
     sum: int
 
     class Config:
-        extra = 'allow'
+        extra = "allow"
 
 
 class ScrollListProducts(TunedModel):

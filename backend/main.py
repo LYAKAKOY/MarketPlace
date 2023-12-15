@@ -1,6 +1,6 @@
-from fastapi import FastAPI, APIRouter
-
 from api.products.handlers import products_router
+from fastapi import APIRouter
+from fastapi import FastAPI
 
 app = FastAPI(description="The Best MarketPlace")
 
