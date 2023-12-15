@@ -21,11 +21,6 @@ def event_loop():
     loop.close()
 
 
-@pytest.fixture(scope="session", autouse=True)
-def run_migrations():
-    os.system("python db/elasticsearch/migrations.py")
-
-
 @pytest.fixture(scope="function")
 async def client() -> Generator[AsyncClient, Any, None]:
     """
