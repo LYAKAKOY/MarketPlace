@@ -1,4 +1,5 @@
 import asyncio
+import os
 from typing import Any
 from typing import Generator
 
@@ -18,6 +19,11 @@ def event_loop():
     loop = asyncio.get_event_loop_policy().new_event_loop()
     yield loop
     loop.close()
+
+
+@pytest.fixture(scope="session", autouse=True)
+def run_migrations():
+    os.system("python db/elasticsearch/migrations.py")
 
 
 @pytest.fixture(scope="function")
