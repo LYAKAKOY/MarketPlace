@@ -10,7 +10,7 @@ jobs:
     test_backend:
       runs-on: ubuntu-latest
       steps:
-        - uses: actions/checkout@v2
+        - uses: actions/checkout@v4
         - name: Lint with flake8
           run: |
             pip install flake8
@@ -21,10 +21,6 @@ jobs:
         - name: Docker compose up
           run: |
             docker compose -f docker-compose-test.yaml up -d
-        - name: Cache Docker images.
-          uses: ScribeMD/docker-cache@0.3.6
-          with:
-            key: docker-${{ runner.os }}-${{ hashFiles('docker-compose-test.yaml') }}
         - name: Running test
           run: |
             docker compose -f docker-compose-test.yaml run --rm backend_test sh -c 'pytest'
