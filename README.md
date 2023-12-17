@@ -42,7 +42,7 @@ Please ensure you have the following dependencies installed on your system:
 
 ***MarketPlace API***
 
-An  .env file is needed to use *Manager Passwords API*
+An  .env file is needed to use *MarketPlace API*
 The steps below outline this process to create it:
 
 <details closed><summary>🔐 MarketPlace API - .env file</summary>
